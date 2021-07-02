@@ -1,10 +1,10 @@
 ## Osnova Framework
 
 ### About
-Osnova Framework is an ECS-like and DOD pattern implementation. It exist just because any other ECS doesn't fully fit my needs. 
+Osnova Framework is an ECS-like and DOD pattern implementation. It exists just because any other ECS doesn't fully fit my needs. 
 
 ### Disclaimer
-Actual framework version is very raw, so there can be a lot of changes in API and namings in future, absolutely not recommended for production use now.
+Actual framework version is very raw, so there can be a lot of changes in API and namings in the future, absolutely not recommended for production use now.
 
 ### Pros and cons
 
@@ -34,7 +34,7 @@ public class MoveComponent : BaseComponent
     public float Speed;
 }
 ```
-It is recommended to place in component only runtime logic variables used by systems and if something requires setup via drag-n-drop from scene (prefab bones, etc).
+It is recommended to place in component only runtime logic variables used by systems and if something requires setup via drag-n-drop from the scene (prefab bones, etc.).
 
 Not recommended to place there any links to the assets or pre-defined settings, better use one ScriptableObject for it.  It will keep clean your prefabs and make easier to debug runtime values.
 
@@ -65,7 +65,7 @@ public class MoveSystem : BaseSystem
 }
 ```
 
-After creating a new system, you need to use **Top Menu -> Osnova Framework -> Generate Systems** button. It will generate ScriptableObject assets of systems, which you will able to place into **Layer** list using drag-n-drop. 
+After creating a new system, you need to use **Top Menu -> Osnova Framework -> Generate Systems** button. It will generate ScriptableObject assets of systems, which you will able to place in the **Layer** list using drag-n-drop. 
 
 #### Systems run order
 Sometimes it is needed to run systems in a specific order. You can define your Systems run order in the **Layer** settings.
@@ -77,7 +77,7 @@ Layer is a MonoBehaviour-based class, which you can add to any object on your sc
 Actually **Layers have no specific run order support**, so it is preferred to use one Layer for all systems, if your systems are order-sensitive.
 
 ### Filters
-Filters allow you to get all type-specific components. For example, in MoveSystem you need to gather all MoveComponents from entities. There you use filter.
+Filters allow you to get all type-specific components. For example, in MoveSystem you need to gather all MoveComponents from entities. There you use the filter.
 
 Basic of usage you can see in the Systems partition.
 
