@@ -20,6 +20,9 @@ Actual framework version is very raw, so there can be a lot of changes in API an
 - It is not about multi-thread now.
 - And even not about optimization and performance boosts.
 
+### Entities
+Entity is a simple Unity component, which you need add to the any object, which will be handled by Osnova Framework (and which require at least one component, other objects not necessarily should be entities).
+
 ### Components
 Component is a MonoBehaviour-based class, which you can add to your entities by the single drag-n-drop. It will store entity data, used by a Systems. No logic should be placed in components.
 
