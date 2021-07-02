@@ -1,0 +1,19 @@
+{
+    "name": "com.insaneone.osnovaframework",
+    "author": "Oleg Dzhuraev",
+    "displayName": "Osnova Framework",
+    "description": "Osnova Framework is an ECS-like framework for Unity (C#) by Oleg Dzhuraev. MIT License.",
+    "unity": "2021.1",
+    "version": "0.2.0",
+    "keywords": [
+        "osnova",
+        "ecs",
+		"osnovaframework",
+        "insaneone"
+    ],
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/OlegDzhuraev/OsnovaFramework.git"
+    }
+}
