@@ -90,6 +90,19 @@ var filter = Components.Filter<MoveComponent>().With<PlayerComponent>();
 var anotherFilter = Components.Filter<EnemyComponent>().With<GunComponent>().Without<IdleStateComponent>();
 ```
 
+### Settings
+You can easily add any settings for your components and systems using the Settings asset. It contains a ScriptableObject list, where you can place any of your data assets with settings.
+
+First of all, create Settings asset with **Right Click => Osnova Framework => Settings** in the Project Window. Do not rename it and place in the Resources folder. Now, you can drag'n'drop into its list any of your Scriptable Object assets.
+Access from code:
+```c#
+using OsnovaFramework;
+
+var yourSettings = Settings.Instance.GetSettings<YourSettingsType>();
+```
+
+In these SO you can store gameplay parameters, for example.
+
 ### Examples
 Someday it will appear here.
 
