@@ -10,6 +10,8 @@ namespace OsnovaFramework
         static int GetUniqueId => actualId++;
         static int actualId;
 
+        static readonly List<Entity> entities = new();
+
         public int Id { get; private set; }
 
         readonly Dictionary<Type, BaseComponent> components = new ();
@@ -26,10 +28,10 @@ namespace OsnovaFramework
                 baseComponent.SetEntity(this);
             }
 
-            Entities.Register(this);
+            Register(this);
         }
         
-        void OnDestroy() => Entities.Unregister(this);
+        void OnDestroy() => Unregister(this);
 
         public T Get<T>() where T : BaseComponent
         {
@@ -42,5 +44,12 @@ namespace OsnovaFramework
         }
 
         public bool Has<T>() where T : BaseComponent => Get<T>();
+
+        public static void Register(Entity entity) => entities.Add(entity);
+        public static void Unregister(Entity entity) => entities.Remove(entity);
+        
+        public static void ResetEntities() => entities.Clear();
+        
+        public static Entity GetEntity(GameObject byObject) => entities.Find(e => e.gameObject == byObject);
     }
 }
