@@ -10,6 +10,8 @@ namespace OsnovaFramework
         
         public Filter(IEnumerable<X> collection) => results = collection;
 
+        public X First() => results.FirstOrDefault();
+        
         public X FirstWith<T>() where T : BaseComponent => 
             results.FirstOrDefault(x => x && x.Entity.Has<T>());
         
