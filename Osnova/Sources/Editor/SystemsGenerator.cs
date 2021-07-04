@@ -7,6 +7,8 @@ namespace OsnovaFramework.Editor
 {
     public static class SystemsGenerator
     {
+        const string assetsPath = "Assets/OsnovaGenerated";
+        
         [MenuItem("Osnova Framework/Generate Systems assets")]
         static void GenerateSystemsAssets()
         {
@@ -14,7 +16,7 @@ namespace OsnovaFramework.Editor
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type.IsSubclassOf(typeof(BaseSystem)) && !type.IsAbstract);
 
-            if (!AssetDatabase.IsValidFolder("Assets/OsnovaGenerated"))
+            if (!AssetDatabase.IsValidFolder(assetsPath))
                 AssetDatabase.CreateFolder("Assets","OsnovaGenerated");
 
             var result = "";
@@ -22,7 +24,7 @@ namespace OsnovaFramework.Editor
             
             foreach (var type in systemsTypes)
             {
-                var path = $"Assets/OsnovaGenerated/{type.Name}.asset";
+                var path = $"{assetsPath}/{type.Name}.asset";
 
                 if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(path) is not null)
                     continue;

@@ -19,6 +19,9 @@ namespace OsnovaFramework
         {
             foreach (var system in systems)
                 system.Update();
+            
+            GlobalSignal.ResetAll();
+            Entity.ResetEntitiesSignals();
         }
 
         public bool HaveSystem<T>() => systems.Find(s => s is T);

@@ -1,7 +1,7 @@
 ## Osnova Framework
 
 ### About
-Osnova Framework is an ECS-like and DOD pattern implementation. It exists just because any other ECS doesn't fully fit my needs. 
+Osnova Framework is an ECS-like and DOD pattern implementation. It exists just because any other ECS doesn't fully fit my needs. Another reason is a testing of the different conceptions. It also means that some features can be removed in the future versions.
 
 ### Disclaimer
 Actual framework version is very raw, so there can be a lot of changes in API and namings in the future, absolutely not recommended for production use now.
@@ -92,6 +92,43 @@ var filter = Components.Filter<MoveComponent>().With<PlayerComponent>();
 // returns all EnemyComponents from entities, which also have GunComponent and have NO IdleStateComponent
 var anotherFilter = Components.Filter<EnemyComponent>().With<GunComponent>().Without<IdleStateComponent>();
 ```
+
+### Signals
+Signal is like a component, but live only one frame. It can be used like events. 
+It is allowed to have only one instance for each signal type, so you cant send two similar signals in one frame.
+
+Making a new signal:
+```c#
+using OsnovaFramework;
+
+public class GunShotSignal : Signal
+{
+    // it can contain any data, or no data at all
+    public GameObject ShootedBy;
+}
+```
+
+You can signal to specific entity, or you can send it globally, which allows check it in all systems.
+
+```c#
+// Sending an Entity signal
+Entity.AddSignal<GunShotSignal>();
+// or you can pass it with some initial data
+Entity.AddSignal(new GunShotSignal() { ShootedBy = gameObject });
+
+// Reading an Entity signal
+var signal = Entity.GetSignal<GunShotSignal>();
+
+// Sending a Global signal
+GlobalSignal.Add<GunShotSignal>();
+// or you can pass it with some initial data
+GlobalSignal.Add(new GunShotSignal() { ShootedBy = gameObject });
+
+// Reading Global Signal
+var globalSignal = GlobalSignal.Get<GunShotSignal>();
+```
+
+Signals is sensitive to the systems order.
 
 ### Settings
 You can easily add any settings for your components and systems using the Settings asset. It contains a ScriptableObject list, where you can place any of your data assets with settings.

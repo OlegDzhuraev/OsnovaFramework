@@ -2,6 +2,7 @@
 
 namespace OsnovaFramework
 {
+    [RequireComponent(typeof(Entity))]
     public abstract class BaseComponent : MonoBehaviour
     {
         public Entity Entity { get; private set; }
