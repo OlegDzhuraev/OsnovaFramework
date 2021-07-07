@@ -1,32 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace OsnovaFramework
 {
     public sealed class Entity : MonoBehaviour
     {
-        static int GetUniqueId => actualId++;
-        static int actualId;
-
-        static readonly List<Entity> entities = new();
-
+        static readonly Dictionary<int, Entity> entities = new();
+        
         public int Id { get; private set; }
 
         readonly Dictionary<Type, BaseComponent> components = new ();
-        readonly Dictionary<Type, Signal> signals = new ();
-
+        
         void Awake()
         {
-            Id = GetUniqueId;
+            Id = gameObject.GetHashCode();
 
-            var list = GetComponents<BaseComponent>().ToList();
+            var baseComponents = GetComponents<BaseComponent>();
 
-            foreach (var baseComponent in list)
+            foreach (var component in baseComponents)
             {
-                components.Add(baseComponent.GetType(), baseComponent);
-                baseComponent.SetEntity(this);
+                component.SetEntity(this);
+                components.Add(component.GetType(), component);
+                BaseComponent.Register(component);
             }
 
             Register(this);
@@ -64,35 +60,28 @@ namespace OsnovaFramework
                 Destroy(component);
         }
 
-        public T GetSignal<T>() where T : Signal
-        {
-            signals.TryGetValue(typeof(T), out var signal);
-
-            return signal as T;
-        }
-
-        public bool AddSignal(Signal signal)
-        {
-            var type = signal.GetType();
-            
-            if (signals.ContainsKey(type))
-                return false;
-            
-            signals.Add(type, signal);
-            
-            return true;
-        }
-        
+        public T GetSignal<T>() where T : Signal => Signal.Get<T>(Id);
+        public bool AddSignal(Signal signal) => Signal.Add(Id, signal);
         public bool AddSignal<T>() where T : Signal, new () => AddSignal(new T());
-        
-        void ResetSignals() => signals.Clear();
-        
-        public static void ResetEntities() => entities.Clear();
-        public static void ResetEntitiesSignals() => entities.ForEach(e => e.ResetSignals());
-        
-        public static Entity GetEntity(GameObject byObject) => entities.Find(e => e.gameObject == byObject);
 
-        static void Register(Entity entity) => entities.Add(entity);
-        static void Unregister(Entity entity) => entities.Remove(entity);
+        public static void ResetAll() => entities.Clear();
+
+        public static Entity GetEntity(GameObject byObject)
+        {
+            entities.TryGetValue(byObject.GetHashCode(), out var entity);
+
+            return entity;
+        }
+
+        static void Register(Entity entity) => entities.Add(entity.Id, entity);
+
+        static void Unregister(Entity entity)
+        {
+            entities.Remove(entity.Id);
+            Signal.UnregisterEntity(entity.Id);
+
+            foreach (var keyValuePair in entity.components)
+                BaseComponent.Unregister(keyValuePair.Value);
+        }
     }
 }

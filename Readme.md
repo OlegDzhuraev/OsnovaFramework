@@ -53,7 +53,7 @@ using OsnovaFramework;
 
 public class MoveSystem : BaseSystem
 {
-    readonly Filter<MoveComponent> filter = Components.Filter<MoveComponent>();
+    readonly Filter<MoveComponent> filter = new (); // C# 9.0 feature
 
     public override void Update()
     {
@@ -87,14 +87,19 @@ Basic of usage you can see in the Systems partition.
 Filters can be more complex:
 ```c#
 // returns all MoveComponents from entities, which also have PlayerComponent
-var filter = Components.Filter<MoveComponent>().With<PlayerComponent>();
+var filter = new Filter<MoveComponent>().With<PlayerComponent>();
 
 // returns all EnemyComponents from entities, which also have GunComponent and have NO IdleStateComponent
-var anotherFilter = Components.Filter<EnemyComponent>().With<GunComponent>().Without<IdleStateComponent>();
+var anotherFilter = new Filter<EnemyComponent>().With<GunComponent>().Without<IdleStateComponent>();
+```
+
+You can take first element of the filter. It can be used for unique components:
+```c#
+var input = Filter<PlayerInput>.GetFirst(); // if there no PlayerInput component, value will be null
 ```
 
 ### Signals
-Signal is like a component, but live only one frame. It can be used like events. 
+Signal is like a component, but live only one frame and works faster than usual components because don't use any Unity things like MonoBehaviour. It can be used like events. 
 It is allowed to have only one instance for each signal type, so you cant send two similar signals in one frame.
 
 Making a new signal:
@@ -138,7 +143,7 @@ Access from code:
 ```c#
 using OsnovaFramework;
 
-var yourSettings = Settings.Instance.GetSettings<YourSettingsType>();
+var yourSettings = Settings.Get<YourSettingsType>();
 ```
 
 In these SO you can store gameplay parameters, for example.

@@ -21,9 +21,9 @@ namespace OsnovaFramework
         
         [SerializeField] List<ScriptableObject> settingsAssets = new ();
 
-        public T GetSettings<T>() where T : ScriptableObject
+        public static T Get<T>() where T : ScriptableObject
         {
-            foreach (var so in settingsAssets)
+            foreach (var so in Instance.settingsAssets)
                 if (so is T typedSo)
                     return typedSo;
 

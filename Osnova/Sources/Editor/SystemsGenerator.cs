@@ -8,6 +8,7 @@ namespace OsnovaFramework.Editor
     public static class SystemsGenerator
     {
         const string assetsPath = "Assets/OsnovaGenerated";
+        const string debugPrefix = "[Osnova Framework]";
         
         [MenuItem("Osnova Framework/Generate Systems assets")]
         static void GenerateSystemsAssets()
@@ -25,10 +26,21 @@ namespace OsnovaFramework.Editor
             foreach (var type in systemsTypes)
             {
                 var path = $"{assetsPath}/{type.Name}.asset";
-
-                if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(path) is not null)
-                    continue;
+                var existingAssetPath = GetAssetPathByType(type);
                 
+                if (!string.IsNullOrEmpty(existingAssetPath))
+                {
+                    if (existingAssetPath != path)
+                    {
+                        var renameResult = AssetDatabase.RenameAsset(existingAssetPath, type.Name);
+                        
+                        if (string.IsNullOrEmpty(renameResult))
+                            Debug.Log($"{debugPrefix} Fixed naming for {existingAssetPath} to {type.Name}.");
+                    }
+
+                    continue;
+                }
+
                 var so = ScriptableObject.CreateInstance(type);
                 AssetDatabase.CreateAsset(so, path);
 
@@ -38,7 +50,21 @@ namespace OsnovaFramework.Editor
             
             AssetDatabase.SaveAssets();
             
-            Debug.Log($"[Osnova Framework] Generated {generatedAmount} systems\n\n" + result);
+            Debug.Log($"{debugPrefix} Generated {generatedAmount} systems\n\n" + result);
+        }
+        
+        static string GetAssetPathByType(Type type)
+        {
+            var guids = AssetDatabase.FindAssets($"t:{type}");
+
+            if (guids.Length == 0)
+                return null;
+            
+            var guid = guids[0];
+            var assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            var asset = AssetDatabase.LoadAssetAtPath(assetPath, type);
+                
+            return asset != null ? assetPath : null;
         }
     }
 }

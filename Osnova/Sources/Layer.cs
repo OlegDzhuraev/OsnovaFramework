@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace OsnovaFramework
@@ -20,11 +19,8 @@ namespace OsnovaFramework
             foreach (var system in systems)
                 system.Update();
             
-            GlobalSignal.ResetAll();
-            Entity.ResetEntitiesSignals();
+            GlobalSignal.ClearAll();
+            Signal.ClearAll();
         }
-
-        public bool HaveSystem<T>() => systems.Find(s => s is T);
-        public bool HaveSystem(Type systemType) => systems.Find(s => s.GetType() == systemType);
     }
 }
