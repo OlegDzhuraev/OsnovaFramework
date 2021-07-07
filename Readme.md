@@ -95,7 +95,7 @@ var anotherFilter = new Filter<EnemyComponent>().With<GunComponent>().Without<Id
 
 You can take first element of the filter. It can be used for unique components:
 ```c#
-var input = Filter<PlayerInput>.GetFirst(); // if there no PlayerInput component, value will be null
+var input = new Filter<PlayerInput>().First(); // if there no PlayerInput component, value will be null
 ```
 
 ### Signals
