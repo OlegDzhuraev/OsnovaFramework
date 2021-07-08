@@ -18,7 +18,7 @@ namespace OsnovaFramework
         {
             var type = signal.GetType();
 
-            if (!signals.ContainsKey(type))
+            if (signals.ContainsKey(type))
                 return false;
 
             signals.Add(type, signal);
