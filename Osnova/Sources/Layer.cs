@@ -29,8 +29,8 @@ namespace OsnovaFramework
         {
             foreach (var system in systems)
             {
-                system.Init(this);
-                system.Start();
+                system.Setup(this);
+                system.Init();
             }
         }
 

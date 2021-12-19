@@ -53,7 +53,8 @@ System is also a MonoBehaviour-based class, which will run your logic.
 
 To create a new system, make a new class and derive it from **BaseSystem**.
 
-Override **Update** method and put your logic into it.
+Override **Init** method to put some initialization logic.
+Override **Run** method and put your update/tick logic into it.
 
 ```c#
 using OsnovaFramework;
@@ -62,7 +63,12 @@ public class MoveSystem : BaseSystem
 {
     readonly Filter<MoveComponent> filter = new (); // C# 9.0 feature
 
-    public override void Update()
+    public override void Init()
+    {
+        // you can place some init or cache logic there.
+    }
+    
+    public override void Run()
     {
         foreach (var moveComponent in filter)
         {

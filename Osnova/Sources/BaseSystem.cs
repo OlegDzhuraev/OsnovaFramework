@@ -6,8 +6,8 @@ namespace OsnovaFramework
     {
         public Layer Layer { get; private set; }
         
-        public void Init(Layer layer) => Layer = layer;
-        public virtual void Start() { }
+        public void Setup(Layer layer) => Layer = layer;
+        public virtual void Init() { }
         public abstract void Run(); 
     }
 }
