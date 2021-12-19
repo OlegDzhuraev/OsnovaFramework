@@ -4,11 +4,11 @@
     "displayName": "Osnova Framework",
     "description": "Osnova Framework is an ECS-like framework for Unity (C#) by Oleg Dzhuraev. MIT License.",
     "unity": "2021.1",
-    "version": "0.2.0",
+    "version": "2021.12.0",
     "keywords": [
         "osnova",
         "ecs",
-		"osnovaframework",
+	    "osnovaframework",
         "insaneone"
     ],
     "dependencies": {},

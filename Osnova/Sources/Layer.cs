@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace OsnovaFramework
@@ -7,20 +8,48 @@ namespace OsnovaFramework
     public sealed class Layer : MonoBehaviour
     {
         [SerializeField] List<BaseSystem> systems = new ();
+        [SerializeField] ScriptableObject[] settings = Array.Empty<ScriptableObject>();
+
+        #if UNITY_EDITOR
+        void OnValidate()
+        {
+            var objectSystems = gameObject.GetComponents<BaseSystem>();
+
+            foreach (var system in objectSystems)
+                if (!systems.Contains(system))
+                    systems.Add(system);
+
+            for (var i = systems.Count - 1; i >= 0; i--)
+                if (systems[i] == null)
+                    systems.RemoveAt(i);
+        }
+        #endif
 
         void Start()
         {
             foreach (var system in systems)
+            {
+                system.Init(this);
                 system.Start();
+            }
         }
 
         void Update()
         {
             foreach (var system in systems)
-                system.Update();
+                system.Run();
             
             GlobalSignal.ClearAll();
             Signal.ClearAll();
+        }
+        
+        public T GetSettings<T>() where T : ScriptableObject
+        {
+            foreach (var so in settings)
+                if (so is T typedSo)
+                    return typedSo;
+
+            return null;
         }
     }
 }

@@ -20,6 +20,13 @@ Actual framework version is very raw, so there can be a lot of changes in API an
 - It is not about multi-thread now.
 - And even not about optimization and performance boosts.
 
+### Requirements and install
+Unity version with C# 9.0 features support.
+
+There is two installation options:
+1. Install framework using Unity Package Manager button "Add package from git URL...". There you'll need to insert a git clone url.
+2. Clone repository and place it to the Assets folder as it is.
+
 ### Entities
 Entity is a simple Unity component, which you need add to the any object, which will be handled by Osnova Framework (and which require at least one component, other objects not necessarily should be entities).
 
@@ -37,12 +44,12 @@ public class MoveComponent : BaseComponent
     public float Speed;
 }
 ```
-It is recommended to place in component only runtime logic variables used by systems and if something requires setup via drag-n-drop from the scene (prefab bones, etc.).
+It is recommended to place in component only runtime logic variables used by systems and things which requires setup via drag-n-drop from the scene (prefab bones, etc.).
 
-Not recommended to place there any links to the assets or pre-defined settings, better use one ScriptableObject for it.  It will keep clean your prefabs and make easier to debug runtime values.
+Not recommended to place there any links to the assets or pre-defined settings, better use one ScriptableObject for it. It will keep clean your prefabs and make easier to debug runtime values.
 
 ### Systems
-System is a ScriptableObject-based class, which will run your logic.
+System is also a MonoBehaviour-based class, which will run your logic.
 
 To create a new system, make a new class and derive it from **BaseSystem**.
 
@@ -68,7 +75,8 @@ public class MoveSystem : BaseSystem
 }
 ```
 
-After creating a new system, you need to use **Top Menu -> Osnova Framework -> Generate Systems** button. It will generate ScriptableObject assets of systems, which you will able to place in the **Layer** list using drag-n-drop. 
+After creating a new system, you need to add your system to your Layer object and drag'n'drop its component into the **Layer** systems list. 
+It can be look like a good idea to place some variables into system code to edit from inspector, but it is not recommended to do - prefer loading any data into Entities components in System Start method or any other way.
 
 #### Systems run order
 Sometimes it is needed to run systems in a specific order. You can define your Systems run order in the **Layer** settings.
@@ -136,17 +144,25 @@ var globalSignal = GlobalSignal.Get<GunShotSignal>();
 Signals is sensitive to the systems order.
 
 ### Settings
-You can easily add any settings for your components and systems using the Settings asset. It contains a ScriptableObject list, where you can place any of your data assets with settings.
+You can easily add any settings for your components and systems using a custom ScriptableObject asset. You can create new type of SO, where you can place any of your data assets with settings.
 
-First of all, create Settings asset with **Right Click => Osnova Framework => Settings** in the Project Window. Do not rename it and place in the Resources folder. Now, you can drag'n'drop into its list any of your Scriptable Object assets.
-Access from code:
+To create an instance of your SO asset, use context menu: **Right Click => Your SO Name** in the Project Window. Now, you can drag'n'drop it into any Layer Settings list.
+And now you can access  this asset from any of your systems just using code like this:
 ```c#
 using OsnovaFramework;
 
-var yourSettings = Settings.Get<YourSettingsType>();
+public class SomeSystem : BaseSystem
+{
+    public override void Run()
+    {
+        // Layer property declared in the Base system and auto-initialized by framework code
+        var yourSettings = Layer.GetSettings<YourSettingsType>();
+    }
+}
 ```
+You can cache it to a variable in the Start method to optimize performance for a bit.
 
-In these SO you can store gameplay parameters, for example.
+In these SO you can store gameplay parameters, for example. Keep it simple - not recommended to store there any big resources like links to the textures or huge prefabs.
 
 ### Examples
 Someday it will appear here.

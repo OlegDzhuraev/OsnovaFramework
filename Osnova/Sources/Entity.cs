@@ -72,6 +72,13 @@ namespace OsnovaFramework
 
             return entity;
         }
+        
+        public static Entity GetEntity(int id)
+        {
+            entities.TryGetValue(id, out var entity);
+
+            return entity;
+        }
 
         static void Register(Entity entity) => entities.Add(entity.Id, entity);
 
