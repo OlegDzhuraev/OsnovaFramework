@@ -16,15 +16,11 @@ namespace OsnovaFramework
         {
             Id = gameObject.GetHashCode();
 
-            var baseComponents = GetComponents<BaseComponent>();
+            var startComponents = GetComponents<BaseComponent>();
 
-            foreach (var component in baseComponents)
-            {
-                component.SetEntity(this);
-                components.Add(component.GetType(), component);
-                BaseComponent.Register(component);
-            }
-
+            foreach (var component in startComponents)
+                AddExisting(component);
+            
             Register(this);
         }
         
@@ -47,7 +43,19 @@ namespace OsnovaFramework
             var component = Get<T>();
 
             if (!component)
+            {
                 component = gameObject.AddComponent<T>();
+                AddExisting(component);
+            }
+
+            return component;
+        }
+
+        T AddExisting<T>(T component) where T : BaseComponent
+        {
+            component.SetEntity(this);
+            components.Add(component.GetType(), component);
+            BaseComponent.Register(component);
 
             return component;
         }
@@ -72,6 +80,9 @@ namespace OsnovaFramework
 
             return entity;
         }
+        
+        public static T GetComponent<T>(int entityId) where T : BaseComponent => entities[entityId].Get<T>();
+        public static bool HasComponent<T>(int entityId) where T : BaseComponent => entities[entityId].Has<T>();
         
         public static Entity GetEntity(int id)
         {
