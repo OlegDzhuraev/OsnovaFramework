@@ -13,8 +13,8 @@ namespace OsnovaFramework
                 MakeSignalListener(entityId);
             
             var type = signal.GetType();
-            signals.TryGetValue(entityId, out var entitySignals);
-            
+            var entitySignals = signals[entityId];
+     
             if (entitySignals.ContainsKey(type))
                 return false;
             
@@ -27,8 +27,7 @@ namespace OsnovaFramework
             if (!CanReceiveSignals(entityId))
                 return null;
             
-            signals.TryGetValue(entityId, out var entitySignals);
-            entitySignals.TryGetValue(typeof(T), out var signal);
+            signals[entityId].TryGetValue(typeof(T), out var signal);
 
             return signal as T;
         }

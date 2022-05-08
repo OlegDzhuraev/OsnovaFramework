@@ -9,6 +9,7 @@ namespace OsnovaFramework
     {
         [SerializeField] List<BaseSystem> systems = new ();
         [SerializeField] ScriptableObject[] settings = Array.Empty<ScriptableObject>();
+        [SerializeField] LayerRunType runType = LayerRunType.Update; 
 
         #if UNITY_EDITOR
         void OnValidate()
@@ -35,6 +36,18 @@ namespace OsnovaFramework
         }
 
         void Update()
+        {
+            if (runType == LayerRunType.Update)
+                Run();
+        }
+
+        void FixedUpdate()
+        {
+            if (runType == LayerRunType.FixedUpdate)
+                Run();
+        }
+
+        public void Run()
         {
             foreach (var system in systems)
                 system.Run();
