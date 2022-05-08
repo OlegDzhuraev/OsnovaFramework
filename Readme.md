@@ -91,6 +91,13 @@ Sometimes it is needed to run systems in a specific order. You can define your S
 ### Layers
 Layer is a MonoBehaviour-based class, which you can add to any object on your scene. Layer allows to setup all systems, which should run in this *layer*. For example, you can separate systems used by different features by the different Layers.
 
+You can specify how to run Layer, there is 3 options:
+- Update (most of game logic usually run there, so this is default value)
+- FixedUpdate (physics or networking is better to run there)
+- Custom (manually from any of your code)
+
+This value can be changed from inspector.
+
 #### Layers run order
 Actually **Layers have no specific run order support**, so it is preferred to use one Layer for all systems, if your systems are order-sensitive.
 
