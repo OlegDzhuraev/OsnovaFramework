@@ -1,10 +1,11 @@
 ## Osnova Framework
 
 ### About
-Osnova Framework is an ECS-like and DOD pattern implementation. It exists just because any other ECS doesn't fully fit my needs. Another reason is a testing of the different conceptions. It also means that some features can be removed in the future versions.
+Osnova Framework is an ECS-like framework. Primary idea is to move as much of settings as possible to the Unity Inspector to make better connectivity of ECS with Unity. So I made this project to check is it a good idea. And now I can say: this is really not the best idea. :) So use this framework at your own risk.
 
-### Disclaimer
+### Disclaimer, updates and roadmap
 Actual framework version is very raw, so there can be a lot of changes in API and namings in the future, absolutely not recommended for production use now.
+Also there is a very small chance that framework will be actively updated, "About" section describes why.
 
 ### Pros and cons
 
@@ -17,8 +18,8 @@ Actual framework version is very raw, so there can be a lot of changes in API an
 
 #### Cons
 - It is made to cover my needs, so nobody guarantees updates and any support.
-- It is not about multi-thread now.
-- And even not about optimization and performance boosts.
+- It is not about multi-thread.
+- And even not about optimization and performance boosts. It can be really slow on 1000+ entities.
 
 ### Requirements and install
 Unity version with C# 9.0 features support.
