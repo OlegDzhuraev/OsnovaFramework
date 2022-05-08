@@ -1,7 +1,9 @@
 ## Osnova Framework
 
 ### About
-Osnova Framework is an ECS-like framework. Primary idea is to move as much of settings as possible to the Unity Inspector to make better connectivity of ECS with Unity. So I made this project to check is it a good idea. And now I can say: this is really not the best idea. :) So use this framework at your own risk.
+Osnova Framework is an ECS-like framework. Primary idea is to move as much of settings as possible to the Unity Inspector to make better connectivity of ECS with Unity.
+
+I made this project to check is it a good idea. And finally I can say: this is not the best idea. :) So use this framework at your own risk.
 
 ### Disclaimer, updates and roadmap
 Actual framework version is very raw, so there can be a lot of changes in API and namings in the future, absolutely not recommended for production use now.
