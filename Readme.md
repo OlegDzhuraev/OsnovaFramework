@@ -1,4 +1,5 @@
 ## Osnova Framework
+This repository is archived since I don't plan to update it anymore.
 
 ### About
 Osnova Framework is an ECS-like framework. Primary idea is to move as much of settings as possible to the Unity Inspector to make better connectivity of ECS with Unity.
